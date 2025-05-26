@@ -52,18 +52,18 @@ public class test_auto extends PedroOpMode {
     private Command secondRoutine() {
         return new SequentialGroup(
                 new ParallelGroup(
-                        new FollowPath(firstPath)
-                        //Lift.INSTANCE.toHigh()
+                        new FollowPath(firstPath),
+                        Lift.INSTANCE.toHigh
                 ),
                 new Delay(2),
                 new ParallelGroup(
-                        new FollowPath(secondPath)
-                        //Lift.INSTANCE.toLow()
+                        new FollowPath(secondPath),
+                        Lift.INSTANCE.toLow
                 ),
                 new Delay(2),
                 new ParallelGroup(
-                        new FollowPath(thirdPath)
-                        //Lift.INSTANCE.toMiddle()
+                        new FollowPath(thirdPath),
+                        Lift.INSTANCE.toMiddle
                 )
         );
     }

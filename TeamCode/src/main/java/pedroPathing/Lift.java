@@ -23,26 +23,25 @@ public class Lift extends Subsystem {
     public String leftLift = "leftLift";
     public String rightLift = "rightLift";
 
-    public Command toLow() {
-        return new RunToPosition(elevator, // MOTOR TO MOVE
+    public Command toLow =
+        new RunToPosition(elevator, // MOTOR TO MOVE
                 0.0, // TARGET POSITION, IN TICKS
                 controller, // CONTROLLER TO IMPLEMENT
                 this); // IMPLEMENTED SUBSYSTEM
-    }
 
-    public Command toMiddle() {
-        return new RunToPosition(elevator, // MOTOR TO MOVE
+
+    public Command toMiddle =
+        new RunToPosition(elevator, // MOTOR TO MOVE
                 500.0, // TARGET POSITION, IN TICKS
                 controller, // CONTROLLER TO IMPLEMENT
                 this); // IMPLEMENTED SUBSYSTEM
-    }
 
-    public Command toHigh() {
-        return new RunToPosition(elevator, // MOTOR TO MOVE
+    public Command toHigh =
+        new RunToPosition(elevator, // MOTOR TO MOVE
                 1000.0, // TARGET POSITION, IN TICKS
                 controller, // CONTROLLER TO IMPLEMENT
                 this); // IMPLEMENTED SUBSYSTEM
-    }
+
 
 
 
