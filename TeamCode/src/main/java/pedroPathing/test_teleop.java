@@ -8,10 +8,11 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import pedroPathing.constants.FConstants;
 import pedroPathing.constants.LConstants;
 
-@TeleOp(name = "test_teleop")
+@TeleOp(name = "test_TeleOp")
 public class test_teleop extends OpMode {
     private Follower follower;
     private final Pose startPose = new Pose(0,0,0);
+
 
 
     @Override
@@ -32,5 +33,16 @@ public class test_teleop extends OpMode {
     @Override
     public void loop() {
         follower.setTeleOpMovementVectors( gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
+        follower.update();
+
+        telemetry.addData("x", follower.getPose().getX());
+        telemetry.addData("y", follower.getPose().getY());
+        telemetry.addData("Heading In Degrees", Math.toDegrees(follower.getPose().getHeading()));
+
+        telemetry.update();
+    }
+
+    @Override
+    public void stop() {
     }
 }
