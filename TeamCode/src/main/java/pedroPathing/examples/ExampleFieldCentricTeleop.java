@@ -6,6 +6,8 @@ import com.pedropathing.util.Constants;
 import  com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import pedroPathing.Claw;
+import pedroPathing.Lift;
 import pedroPathing.constants.FConstants;
 import pedroPathing.constants.LConstants;
 
@@ -20,6 +22,7 @@ import pedroPathing.constants.LConstants;
 public class ExampleFieldCentricTeleop extends OpMode {
     private Follower follower;
     private final Pose startPose = new Pose(0,0,0);
+
 
     /** This method is call once when init is played, it initializes the follower **/
     @Override
