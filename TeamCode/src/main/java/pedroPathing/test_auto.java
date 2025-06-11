@@ -1,7 +1,5 @@
 package pedroPathing;
 
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.localization.Pose;
 import com.pedropathing.pathgen.BezierLine;
@@ -17,6 +15,7 @@ import com.rowanmcalpin.nextftc.pedro.PedroOpMode;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
+import pedroPathing.Subsystems.Lift;
 import pedroPathing.constants.FConstants;
 import pedroPathing.constants.LConstants;
 
@@ -53,17 +52,17 @@ public class test_auto extends PedroOpMode {
         return new SequentialGroup(
                 new ParallelGroup(
                         new FollowPath(firstPath),
-                        Lift.INSTANCE.toHigh
+                        Lift.INSTANCE.toHigh()
                 ),
                 new Delay(2),
                 new ParallelGroup(
                         new FollowPath(secondPath),
-                        Lift.INSTANCE.toLow
+                        Lift.INSTANCE.toLow()
                 ),
                 new Delay(2),
                 new ParallelGroup(
                         new FollowPath(thirdPath),
-                        Lift.INSTANCE.toMiddle
+                        Lift.INSTANCE.toMiddle()
                 )
         );
     }

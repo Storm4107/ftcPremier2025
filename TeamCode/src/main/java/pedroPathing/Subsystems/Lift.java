@@ -1,4 +1,4 @@
-package pedroPathing;
+package pedroPathing.Subsystems;
 
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.rowanmcalpin.nextftc.core.Subsystem;
@@ -13,34 +13,39 @@ import com.rowanmcalpin.nextftc.ftc.hardware.controllables.RunToPosition;
 public class Lift extends Subsystem {
     // BOILERPLATE
     public static final Lift INSTANCE = new Lift();
-    private Lift() { }
+
+    private Lift() {
+    }
 
     // USER CODE
     public MotorGroup elevator;
 
-    public PIDFController controller = new PIDFController(0.03, 0.0, 0.0, new StaticFeedforward(0.0),100);
+    public PIDFController controller = new PIDFController(0.03, 0.0, 0.0, new StaticFeedforward(0.0), 100);
 
     public String leftLift = "leftLift";
     public String rightLift = "rightLift";
 
-    public Command toLow =
-        new RunToPosition(elevator, // MOTOR TO MOVE
-                0.0, // TARGET POSITION, IN TICKS
+    public Command toLow() {
+        return new RunToPosition(elevator, // MOTOR TO MOVE
+                10.0, // TARGET POSITION, IN TICKS
                 controller, // CONTROLLER TO IMPLEMENT
                 this); // IMPLEMENTED SUBSYSTEM
+    }
 
 
-    public Command toMiddle =
-        new RunToPosition(elevator, // MOTOR TO MOVE
-                500.0, // TARGET POSITION, IN TICKS
-                controller, // CONTROLLER TO IMPLEMENT
-                this); // IMPLEMENTED SUBSYSTEM
+    public Command toMiddle(){
+            return new RunToPosition(elevator, // MOTOR TO MOVE
+                    -500.0, // TARGET POSITION, IN TICKS
+                    controller, // CONTROLLER TO IMPLEMENT
+                    this); // IMPLEMENTED SUBSYSTEM
+        }
 
-    public Command toHigh =
-        new RunToPosition(elevator, // MOTOR TO MOVE
-                1000.0, // TARGET POSITION, IN TICKS
-                controller, // CONTROLLER TO IMPLEMENT
-                this); // IMPLEMENTED SUBSYSTEM
+    public Command toHigh(){
+           return new RunToPosition(elevator, // MOTOR TO MOVE
+                    -3000.0, // TARGET POSITION, IN TICKS
+                    controller, // CONTROLLER TO IMPLEMENT
+                    this); // IMPLEMENTED SUBSYSTEM
+}
 
 
 

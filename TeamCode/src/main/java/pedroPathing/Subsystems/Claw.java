@@ -1,4 +1,4 @@
-package pedroPathing;
+package pedroPathing.Subsystems;
 
 import com.qualcomm.robotcore.hardware.Servo;
 import com.rowanmcalpin.nextftc.core.Subsystem;
