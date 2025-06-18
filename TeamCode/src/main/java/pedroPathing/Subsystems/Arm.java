@@ -27,22 +27,22 @@ public class Arm extends Subsystem {
 //Claw Commands
     public ServoToPosition open() {
         return new ServoToPosition(claw, // SERVO TO MOVE
-                0.68, // POSITION TO MOVE TO
+                0.8, // POSITION TO MOVE TO
                 this); // IMPLEMENTED SUBSYSTEM
     }
 
     public ServoToPosition close() {
         return new ServoToPosition(claw, // SERVO TO MOVE
-                0.755, // POSITION TO MOVE TO
+                0.62, // POSITION TO MOVE TO
                 this); // IMPLEMENTED SUBSYSTEM
     }
 
  //Arm Commadns
     public Command wallPickup(){
-        ServoToPosition leftArmCommand = new ServoToPosition(leftArm,.16,this);
-        ServoToPosition rigthArmCommand = new ServoToPosition(rightArm,.16,this);
-        ServoToPosition secondArmCommand = new ServoToPosition(secondArm,.5,this);
-        ServoToPosition clawCommand = new ServoToPosition(claw,0.68,this);
+        ServoToPosition leftArmCommand = new ServoToPosition(leftArm,.24,this);
+        ServoToPosition rigthArmCommand = new ServoToPosition(rightArm,.24,this);
+        ServoToPosition secondArmCommand = new ServoToPosition(secondArm,-1,this);
+        ServoToPosition clawCommand = new ServoToPosition(claw,0.8,this);
 
         return new ParallelGroup(
                 leftArmCommand,
@@ -53,14 +53,16 @@ public class Arm extends Subsystem {
     }
 
     public Command handoff(){
-        ServoToPosition leftArmCommand = new ServoToPosition(leftArm,.52,this);
-        ServoToPosition rightArmCommand = new ServoToPosition(rightArm,.52,this);
-        ServoToPosition secondArmCommand = new ServoToPosition(secondArm,.16,this);
+        ServoToPosition leftArmCommand = new ServoToPosition(leftArm,.64,this);
+        ServoToPosition rightArmCommand = new ServoToPosition(rightArm,.64,this);
+        ServoToPosition secondArmCommand = new ServoToPosition(secondArm,.57,this);
+        ServoToPosition clawCommand = new ServoToPosition(claw,0.8,this);
 
         return new ParallelGroup(
                 leftArmCommand,
                 rightArmCommand,
-                secondArmCommand
+                secondArmCommand,
+                clawCommand
         );
     }
 
