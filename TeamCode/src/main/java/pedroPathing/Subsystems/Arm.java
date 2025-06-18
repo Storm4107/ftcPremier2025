@@ -53,10 +53,10 @@ public class Arm extends Subsystem {
     }
 
     public Command handoff(){
-        ServoToPosition leftArmCommand = new ServoToPosition(leftArm,.64,this);
-        ServoToPosition rightArmCommand = new ServoToPosition(rightArm,.64,this);
-        ServoToPosition secondArmCommand = new ServoToPosition(secondArm,.57,this);
-        ServoToPosition clawCommand = new ServoToPosition(claw,0.8,this);
+        ServoToPosition leftArmCommand = new ServoToPosition(leftArm,.365,this);
+        ServoToPosition rightArmCommand = new ServoToPosition(rightArm,.365,this);
+        ServoToPosition secondArmCommand = new ServoToPosition(secondArm,.945,this);
+        ServoToPosition clawCommand = new ServoToPosition(claw,0.9,this);
 
         return new ParallelGroup(
                 leftArmCommand,

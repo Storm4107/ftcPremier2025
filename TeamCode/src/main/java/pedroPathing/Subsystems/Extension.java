@@ -56,9 +56,9 @@ public class Extension extends Subsystem {
 //Wrist Commands
     public Command groundWrist(){
         // Create individual servo commands
-        ServoToPosition secondWristCommand = new ServoToPosition(secondWrist, 0.85, this);
-        ServoToPosition leftWristCommand = new ServoToPosition(leftWrist, .93, this);
-        ServoToPosition rightWristCommand = new ServoToPosition(rightWrist, .93, this);
+        ServoToPosition secondWristCommand = new ServoToPosition(secondWrist, 0.59, this);
+        ServoToPosition leftWristCommand = new ServoToPosition(leftWrist, .95, this);
+        ServoToPosition rightWristCommand = new ServoToPosition(rightWrist, .95, this);
 
         // Combine them into a ParallelCommandGroup
         // This command group will run all three commands simultaneously.
@@ -70,9 +70,9 @@ public class Extension extends Subsystem {
         );
     }
     public Command handoff(){
-        ServoToPosition secondWristCommand = new ServoToPosition(secondWrist, -1, this);
-        ServoToPosition rightWristCommand = new ServoToPosition(rightWrist, 1, this);
-        ServoToPosition leftWristCommand = new ServoToPosition(leftWrist, 1, this);
+        ServoToPosition secondWristCommand = new ServoToPosition(secondWrist, .47, this);
+        ServoToPosition rightWristCommand = new ServoToPosition(rightWrist, .6, this);
+        ServoToPosition leftWristCommand = new ServoToPosition(leftWrist, .6, this);
         ServoToPosition leftExtendCommand = new ServoToPosition(leftExtend,-0.2,this);
         ServoToPosition rightExtendCommand = new ServoToPosition(rightExtend, -0.2, this);
 
@@ -83,11 +83,6 @@ public class Extension extends Subsystem {
                 rightWristCommand,
                 leftWristCommand
         );
-    }
-
-    public void setIntakeSpeed(double speed){
-        leftIntake.setPower(speed);
-        rightIntake.setPower(speed);
     }
 
     public Command intake = new LambdaCommand()

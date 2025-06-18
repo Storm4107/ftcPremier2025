@@ -61,8 +61,8 @@ public class test_auto extends PedroOpMode {
                 ),
                 new Delay(2),
                 new ParallelGroup(
-                        new FollowPath(thirdPath),
-                        Lift.INSTANCE.toMiddle()
+                        new FollowPath(thirdPath)
+                        //Lift.INSTANCE.toMiddle()
                 )
         );
     }

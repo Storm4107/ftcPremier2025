@@ -71,10 +71,12 @@ public class kentucky2025 extends NextFTCOpMode {
         driverControlled = new MecanumDriverControlled(motors, gamepadManager.getGamepad1(), false, imu);
         driverControlled.invoke();
         setGamePad2Commands();
+        setGamePad1Commands();
     }
     public void setGamePad2Commands() {
+        /*
         gamepadManager.getGamepad1().getDpadUp().setPressedCommand(()-> new ParallelGroup(Lift.INSTANCE.toHigh(), Arm.INSTANCE.sampScore()));
-        gamepadManager.getGamepad1().getRightTrigger().setPressedCommand(value -> new SequentialGroup(Lift.INSTANCE.chamber(), Arm.INSTANCE.ramSpec()));
+        gamepadManager.getGamepad1().getRightTrigger().setPressedCommand(Value -> new SequentialGroup(Lift.INSTANCE.chamber(), Arm.INSTANCE.ramSpec()));
         //gamepadManager.getGamepad1().getB().setPressedCommand(Lift.INSTANCE::chamber);
         gamepadManager.getGamepad1().getDpadRight().setReleasedCommand(Extension.INSTANCE::fullOut);
         gamepadManager.getGamepad1().getDpadLeft().setReleasedCommand(Extension.INSTANCE::fullIn);
@@ -90,5 +92,35 @@ public class kentucky2025 extends NextFTCOpMode {
         gamepadManager.getGamepad1().getLeftTrigger().setPressedCommand(Extension.INSTANCE::getEjectCommand);
         gamepadManager.getGamepad1().getLeftTrigger().setReleasedCommand(Extension.INSTANCE::getIntakeOffCommand);
 */
+        //elevator
+        gamepadManager.getGamepad2().getDpadUp().setPressedCommand(Lift.INSTANCE::toHigh);
+        gamepadManager.getGamepad2().getDpadDown().setPressedCommand(Lift.INSTANCE::chamber);
+        gamepadManager.getGamepad2().getStart().setPressedCommand(Lift.INSTANCE::toLow);
+        //Extension
+        gamepadManager.getGamepad2().getDpadLeft().setPressedCommand(Extension.INSTANCE::fullIn);
+        gamepadManager.getGamepad2().getDpadRight().setPressedCommand(Extension.INSTANCE::fullOut);
+        //gamepadManager.getGamepad2().get(INSERT SOMETHING).setPressedCommand(Extension.INSTANCE::middle); Make this a middle preset at for the extension
+        //Wrist
+        gamepadManager.getGamepad2().getA().setPressedCommand(Extension.INSTANCE::groundWrist);
+        gamepadManager.getGamepad2().getX().setPressedCommand(Extension.INSTANCE::handoff);
+        //Intake
+        gamepadManager.getGamepad1().getRightTrigger().setPressedCommand(Extension.INSTANCE::getIntakeCommand);
+        gamepadManager.getGamepad1().getRightTrigger().setReleasedCommand(Extension.INSTANCE::getIntakeOffCommand);
+        gamepadManager.getGamepad1().getLeftTrigger().setPressedCommand(Extension.INSTANCE::getEjectCommand);
+        gamepadManager.getGamepad1().getLeftTrigger().setReleasedCommand(Extension.INSTANCE::getIntakeOffCommand);
+        //claw
+        gamepadManager.getGamepad1().getLeftBumper().setPressedCommand(Arm.INSTANCE::close);
+        gamepadManager.getGamepad1().getRightBumper().setPressedCommand(Arm.INSTANCE::open);
+        //Arm
+        gamepadManager.getGamepad2().getB().setPressedCommand(Arm.INSTANCE::ramSpec);
+        gamepadManager.getGamepad2().getBack().setPressedCommand(Arm.INSTANCE::sampScore);
+        gamepadManager.getGamepad2().getY().setPressedCommand(Arm.INSTANCE::wallPickup);
+        gamepadManager.getGamepad2().getBack().setPressedCommand(Arm.INSTANCE::handoff);
     }
+    public void setGamePad1Commands(){
+        gamepadManager.getGamepad1().getX().setPressedCommand(Lift.INSTANCE::toHigh);
+        gamepadManager.getGamepad1().getB().setPressedCommand(Lift.INSTANCE::chamber);
+        gamepadManager.getGamepad1().getA().setPressedCommand(Lift.INSTANCE::toLow);
+    }
+
 }
