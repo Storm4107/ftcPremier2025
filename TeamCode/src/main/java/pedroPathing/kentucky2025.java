@@ -16,6 +16,7 @@ import com.rowanmcalpin.nextftc.ftc.driving.MecanumDriverControlled;
 import pedroPathing.Subsystems.Arm;
 import pedroPathing.Subsystems.Extension;
 import pedroPathing.Subsystems.Lift;
+import pedroPathing.Subsystems.ManualControl;
 
 @TeleOp(name = "kentucky2025")
 public class kentucky2025 extends NextFTCOpMode {
@@ -33,10 +34,14 @@ public class kentucky2025 extends NextFTCOpMode {
     public MotorEx frontRightMotor;
     public MotorEx backLeftMotor;
     public MotorEx backRightMotor;
+    public MotorEx leftLift;
+    public MotorEx rightLift;
     public MotorEx[] motors;
+    public MotorEx[] eleMotors;
     public IMU imu;
 
     public Command driverControlled;
+    public Command elevatorControlled;
 
     @Override
     public void onInit() {
@@ -44,14 +49,18 @@ public class kentucky2025 extends NextFTCOpMode {
         backLeftMotor = new MotorEx(backLeftName);
         backRightMotor = new MotorEx(backRightName);
         frontRightMotor = new MotorEx(frontRightName);
+        leftLift = new MotorEx(Lift.INSTANCE.leftLift);
+        rightLift = new MotorEx(Lift.INSTANCE.rightLift);
 
         // Change your motor directions to suit your robot.
         frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        rightLift.setDirection(DcMotorSimple.Direction.REVERSE);
 
         motors = new MotorEx[]{frontLeftMotor, frontRightMotor, backLeftMotor, backRightMotor};
+        eleMotors = new MotorEx[]{leftLift, rightLift};
 
         imu = hardwareMap.get(IMU.class, "imu");
         imu.initialize(new IMU.Parameters(new RevHubOrientationOnRobot(
@@ -70,6 +79,10 @@ public class kentucky2025 extends NextFTCOpMode {
     public void onStartButtonPressed() {
         driverControlled = new MecanumDriverControlled(motors, gamepadManager.getGamepad1(), false, imu);
         driverControlled.invoke();
+
+        elevatorControlled = new ManualControl(eleMotors, (gamepadManager.getGamepad2().getRightStick().getYAxis()));
+        elevatorControlled.invoke();
+
         setGamePad2Commands();
         setGamePad1Commands();
     }
@@ -116,6 +129,8 @@ public class kentucky2025 extends NextFTCOpMode {
         gamepadManager.getGamepad2().getBack().setPressedCommand(Arm.INSTANCE::sampScore);
         gamepadManager.getGamepad2().getY().setPressedCommand(Arm.INSTANCE::wallPickup);
         gamepadManager.getGamepad2().getBack().setPressedCommand(Arm.INSTANCE::handoff);
+        //manual control
+        //gamepadManager.getGamepad2().getLeftStick().setHeldCommand();
     }
     public void setGamePad1Commands(){
         gamepadManager.getGamepad1().getX().setPressedCommand(Lift.INSTANCE::toHigh);
