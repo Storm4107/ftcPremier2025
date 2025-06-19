@@ -2,12 +2,9 @@ package pedroPathing.examples;
 
 import com.pedropathing.follower.Follower;
 import com.pedropathing.localization.Pose;
-import com.pedropathing.util.Constants;
 import  com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import pedroPathing.Claw;
-import pedroPathing.Lift;
 import pedroPathing.constants.FConstants;
 import pedroPathing.constants.LConstants;
 

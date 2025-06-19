@@ -3,21 +3,18 @@ package pedroPathing.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.rowanmcalpin.nextftc.core.command.Command;
-import com.rowanmcalpin.nextftc.core.command.groups.ParallelGroup;
-import com.rowanmcalpin.nextftc.core.command.groups.SequentialGroup;
 import com.rowanmcalpin.nextftc.ftc.NextFTCOpMode;
 
 import com.rowanmcalpin.nextftc.ftc.hardware.controllables.MotorEx;
 import com.rowanmcalpin.nextftc.ftc.driving.MecanumDriverControlled;
 
-import pedroPathing.Claw;
-import pedroPathing.Lift;
+import pedroPathing.Subsystem.master;
 
-@TeleOp(name = "NextFTC TeleOp Program Java")
-public class teleop2025 extends NextFTCOpMode {
+@TeleOp(name = "kentucky25")
+public class Kentucky25 extends NextFTCOpMode {
 
-    public teleop2025() {
-        super(Lift.INSTANCE);
+    public Kentucky25() {
+        super(master.INSTANCE);
     }
 
     public String frontLeftName = "leftFront";
@@ -29,8 +26,6 @@ public class teleop2025 extends NextFTCOpMode {
     public MotorEx frontRightMotor;
     public MotorEx backLeftMotor;
     public MotorEx backRightMotor;
-    public MotorEx leftLift;
-    public MotorEx rightLift;
 
     public MotorEx[] motors;
 
@@ -60,7 +55,5 @@ public class teleop2025 extends NextFTCOpMode {
         setGamePad2Commands();
     }
         public void setGamePad2Commands() {
-            gamepadManager.getGamepad2().getDpadUp().setPressedCommand(Lift.INSTANCE::toHigh);
-            gamepadManager.getGamepad2().getDpadDown().setPressedCommand(Lift.INSTANCE::toLow);
         }
 }
