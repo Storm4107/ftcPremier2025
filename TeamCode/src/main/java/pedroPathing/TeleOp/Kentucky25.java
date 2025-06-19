@@ -1,5 +1,7 @@
 package pedroPathing.TeleOp;
 
+import static com.rowanmcalpin.nextftc.ftc.OpModeData.telemetry;
+
 import com.pedropathing.follower.Follower;
 import com.pedropathing.localization.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -58,23 +60,34 @@ public class Kentucky25 extends NextFTCOpMode {
         driverControlled.invoke();
 
         setGamePad2Commands();
+        update();
     }
         public void setGamePad2Commands() {
-        gamepadManager.getGamepad2().getDpadUp().getPressedCommand(master.INSTANCE::sampScore);
-        gamepadManager.getGamepad2().getDpadDown().getPressedCommand(master.INSTANCE::ramSpec);
-        gamepadManager.getGamepad2().getDpadLeft().getPressedCommand(master.INSTANCE::fullIn);
-        gamepadManager.getGamepad2().getDpadRight().getPressedCommand(master.INSTANCE::fullOut);
+        gamepadManager.getGamepad2().getDpadUp().setPressedCommand(master.INSTANCE::sampScore);
+        gamepadManager.getGamepad2().getDpadDown().setPressedCommand(master.INSTANCE::ramSpec);
+        gamepadManager.getGamepad2().getDpadLeft().setPressedCommand(master.INSTANCE::fullIn);
+        gamepadManager.getGamepad2().getDpadRight().setPressedCommand(master.INSTANCE::fullOut);
 
-        gamepadManager.getGamepad2().getX().getPressedCommand(master.INSTANCE::handOff);
-        gamepadManager.getGamepad2().getA().getPressedCommand(master.INSTANCE::wallPickup);
-        gamepadManager.getGamepad2().getB().getPressedCommand(master.INSTANCE::groundWrist);
+        gamepadManager.getGamepad2().getStart().setPressedCommand(master.INSTANCE::handoff);
+        //gamepadManager.getGamepad2().getBack().setPressedCommand(master.INSTANCE::);
 
-        gamepadManager.getGamepad2().getLeftBumper().getPressedCommand(master.INSTANCE::open);
-        gamepadManager.getGamepad2().getRightBumper().getPressedCommand(master.INSTACNE::close);
+        gamepadManager.getGamepad2().getA().setPressedCommand(master.INSTANCE::wallPickup);
+        gamepadManager.getGamepad2().getB().setPressedCommand(master.INSTANCE::sampPickUp);
+        gamepadManager.getGamepad2().getY().setPressedCommand(master.INSTANCE::specPickup);
+        gamepadManager.getGamepad2().getX().setPressedCommand(master.INSTANCE::pluck);
 
-        gamepadManager.getGamepad1().getRightTrigger().setPressedCommand(master.INSTANCE::getIntakeCommand);
-        gamepadManager.getGamepad1().getRightTrigger().setReleasedCommand(master.INSTANCE::getIntakeOffCommand);
-        gamepadManager.getGamepad1().getLeftTrigger().setPressedCommand(master.INSTANCE::getEjectCommand);
-        gamepadManager.getGamepad1().getLeftTrigger().setReleasedCommand(master.INSTANCE::getIntakeOffCommand);
+        gamepadManager.getGamepad2().getLeftBumper().setPressedCommand(master.INSTANCE::open);
+        gamepadManager.getGamepad2().getRightBumper().setPressedCommand(master.INSTANCE::close);
+
+        gamepadManager.getGamepad2().getRightTrigger().setPressedCommand(master.INSTANCE::getIntakeCommand);
+        gamepadManager.getGamepad2().getRightTrigger().setReleasedCommand(master.INSTANCE::getIntakeOffCommand);
+        gamepadManager.getGamepad2().getLeftTrigger().setPressedCommand(master.INSTANCE::getEjectCommand);
+        gamepadManager.getGamepad2().getLeftTrigger().setReleasedCommand(master.INSTANCE::getIntakeOffCommand);
         }
+
+    public void update(){
+        //Executed on every update of the command
+        telemetry.addData("CurrentPosition", master.INSTANCE.elevator.getCurrentPosition());
+        telemetry.update();
+    }
 }

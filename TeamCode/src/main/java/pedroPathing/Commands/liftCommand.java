@@ -37,7 +37,7 @@ public class liftCommand extends Command {
     @Override
     public void start(){
         //executed when the command begins
-        Controller = new PIDFController(.015,0,0,new StaticFeedforward(0),10);
+        Controller = new PIDFController(.015,0,0.,new StaticFeedforward(0),10);
     }
 
     @Override
@@ -47,7 +47,7 @@ public class liftCommand extends Command {
     }
 
     @Override
-    public  void stop(boolean interrupted){
+    public void stop(boolean interrupted){
         //executed when the command ends
         master.INSTANCE.elevator.setPower(0);
     }
