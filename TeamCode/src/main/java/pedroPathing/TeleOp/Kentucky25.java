@@ -4,11 +4,15 @@ import static com.rowanmcalpin.nextftc.ftc.OpModeData.telemetry;
 
 import com.pedropathing.follower.Follower;
 import com.pedropathing.localization.Pose;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.rowanmcalpin.nextftc.core.command.Command;
 import com.rowanmcalpin.nextftc.ftc.NextFTCOpMode;
 
+import com.rowanmcalpin.nextftc.ftc.OpModeData;
 import com.rowanmcalpin.nextftc.ftc.hardware.controllables.MotorEx;
 import com.rowanmcalpin.nextftc.ftc.driving.MecanumDriverControlled;
 
@@ -38,6 +42,8 @@ public class Kentucky25 extends NextFTCOpMode {
 
     public Command driverControlled;
 
+    public IMU imu;
+
     @Override
     public void onInit() {
         frontLeftMotor = new MotorEx(frontLeftName);
@@ -52,11 +58,17 @@ public class Kentucky25 extends NextFTCOpMode {
         backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
         motors = new MotorEx[]{frontLeftMotor, frontRightMotor, backLeftMotor, backRightMotor};
+
+        imu = hardwareMap.get(IMU.class, "imu");
+        imu.initialize(new IMU.Parameters(new RevHubOrientationOnRobot(
+                RevHubOrientationOnRobot.LogoFacingDirection.UP,
+                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD)));
+        imu.resetYaw();
     }
 
     @Override
     public void onStartButtonPressed() {
-        driverControlled = new MecanumDriverControlled(motors, gamepadManager.getGamepad1());
+        driverControlled = new MecanumDriverControlled(motors, gamepadManager.getGamepad1(), false,imu);
         driverControlled.invoke();
 
         setGamePad2Commands();
