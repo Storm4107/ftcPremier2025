@@ -67,7 +67,7 @@ public class master extends Subsystem {
 
     public ServoToPosition close() {
         return new ServoToPosition(claw, // SERVO TO MOVE
-                0.62, // POSITION TO MOVE TO
+                0.65, // POSITION TO MOVE TO
                 this); // IMPLEMENTED SUBSYSTEM
     }
 
@@ -79,8 +79,8 @@ public class master extends Subsystem {
         ServoToPosition secondWristCommand = new ServoToPosition(secondWrist, 0.59, this);
         ServoToPosition leftWristCommand = new ServoToPosition(leftWrist, .95, this);
         ServoToPosition rightWristCommand = new ServoToPosition(rightWrist, .95, this);
-        ServoToPosition rightExtendCommand = new ServoToPosition(rightExtend,-0.225,this);
-        ServoToPosition leftExtendCommand = new ServoToPosition(leftExtend, -0.225,this);
+        ServoToPosition rightExtendCommand = new ServoToPosition(rightExtend,-0.2,this);
+        ServoToPosition leftExtendCommand = new ServoToPosition(leftExtend, -0.2,this);
         RunToPosition elevatorCommand = new RunToPosition(elevator,1200,controller,this);
 
         return new ParallelGroup(
@@ -105,8 +105,8 @@ public class master extends Subsystem {
         ServoToPosition secondWristCommand = new ServoToPosition(secondWrist, .47, this);
         ServoToPosition rightWristCommand = new ServoToPosition(rightWrist, .6, this);
         ServoToPosition leftWristCommand = new ServoToPosition(leftWrist, .6, this);
-        ServoToPosition leftExtendCommand = new ServoToPosition(leftExtend,-0.225,this);
-        ServoToPosition rightExtendCommand = new ServoToPosition(rightExtend, -0.225, this);
+        ServoToPosition leftExtendCommand = new ServoToPosition(leftExtend,-0.235,this);
+        ServoToPosition rightExtendCommand = new ServoToPosition(rightExtend, -0.235, this);
         RunToPosition elevatorCommand = new RunToPosition(elevator,0,controller,this);
 
         return new ParallelGroup(
@@ -210,8 +210,8 @@ public class master extends Subsystem {
     public Command specPickup(){
         // Create individual servo commands
         ServoToPosition secondWristCommand = new ServoToPosition(secondWrist, 0.9, this);
-        ServoToPosition rightWristCommand = new ServoToPosition(rightWrist, .6, this);
-        ServoToPosition leftWristCommand = new ServoToPosition(leftWrist, .6, this);
+        ServoToPosition rightWristCommand = new ServoToPosition(rightWrist, .5, this);
+        ServoToPosition leftWristCommand = new ServoToPosition(leftWrist, .5, this);
 
         // Combine them into a ParallelCommandGroup
         // This command group will run all three commands simultaneously.

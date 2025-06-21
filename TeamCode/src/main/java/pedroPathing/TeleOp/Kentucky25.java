@@ -91,10 +91,10 @@ public class Kentucky25 extends NextFTCOpMode {
         gamepadManager.getGamepad2().getLeftBumper().setPressedCommand(master.INSTANCE::open);
         gamepadManager.getGamepad2().getRightBumper().setPressedCommand(master.INSTANCE::close);
 
-        gamepadManager.getGamepad2().getRightTrigger().setPressedCommand(master.INSTANCE::getIntakeCommand);
-        gamepadManager.getGamepad2().getRightTrigger().setReleasedCommand(master.INSTANCE::getIntakeOffCommand);
-        gamepadManager.getGamepad2().getLeftTrigger().setPressedCommand(master.INSTANCE::getEjectCommand);
+        gamepadManager.getGamepad2().getLeftTrigger().setPressedCommand(master.INSTANCE::getIntakeCommand);
         gamepadManager.getGamepad2().getLeftTrigger().setReleasedCommand(master.INSTANCE::getIntakeOffCommand);
+        gamepadManager.getGamepad2().getRightTrigger().setPressedCommand(master.INSTANCE::getEjectCommand);
+        gamepadManager.getGamepad2().getRightTrigger().setReleasedCommand(master.INSTANCE::getIntakeOffCommand);
         }
 
     public void update(){
