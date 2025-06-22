@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.rowanmcalpin.nextftc.core.command.Command;
+import com.rowanmcalpin.nextftc.core.command.utility.InstantCommand;
 import com.rowanmcalpin.nextftc.ftc.NextFTCOpMode;
 
 import com.rowanmcalpin.nextftc.ftc.OpModeData;
@@ -59,12 +60,14 @@ public class Kentucky25 extends NextFTCOpMode {
 
         motors = new MotorEx[]{frontLeftMotor, frontRightMotor, backLeftMotor, backRightMotor};
 
-        imu = hardwareMap.get(IMU.class, "imu");
+        imu = hardwareMap.get(IMU.class, "eIMU");
         imu.initialize(new IMU.Parameters(new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD)));
+                RevHubOrientationOnRobot.LogoFacingDirection.DOWN,
+                RevHubOrientationOnRobot.UsbFacingDirection.LEFT)));
         imu.resetYaw();
     }
+
+    public Command resetGyro = new InstantCommand(()-> {imu.resetYaw();});
 
     @Override
     public void onStartButtonPressed() {
@@ -95,6 +98,8 @@ public class Kentucky25 extends NextFTCOpMode {
         gamepadManager.getGamepad2().getLeftTrigger().setReleasedCommand(master.INSTANCE::getIntakeOffCommand);
         gamepadManager.getGamepad2().getRightTrigger().setPressedCommand(master.INSTANCE::getEjectCommand);
         gamepadManager.getGamepad2().getRightTrigger().setReleasedCommand(master.INSTANCE::getIntakeOffCommand);
+
+        gamepadManager.getGamepad1().getY().setPressedCommand(()-> resetGyro);
         }
 
     public void update(){
