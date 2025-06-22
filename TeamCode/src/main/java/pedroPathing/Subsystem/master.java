@@ -24,7 +24,7 @@ public class master extends Subsystem {
     public static final master INSTANCE = new master();
     private master() { }
 
-    public PIDFController controller = new PIDFController(0.005, 0.0, 0.0, new StaticFeedforward(0.0));
+    public PIDFController controller = new PIDFController(0.01, 0.0, 0.0, new StaticFeedforward(0.0),5);
 
 //Arm
     public Servo claw;
@@ -81,7 +81,7 @@ public class master extends Subsystem {
         ServoToPosition rightWristCommand = new ServoToPosition(rightWrist, .6, this);
         ServoToPosition rightExtendCommand = new ServoToPosition(rightExtend,-0.225,this);
         ServoToPosition leftExtendCommand = new ServoToPosition(leftExtend, -0.225,this);
-        RunToPosition elevatorCommand = new RunToPosition(elevator,1200,controller,this);
+        RunToPosition elevatorCommand = new RunToPosition(elevator,1100,controller,this);
 
         return new ParallelGroup(
                 leftArmCommand,
@@ -202,10 +202,17 @@ public class master extends Subsystem {
     public Command fullIn(){
         ServoToPosition rightExtendCommand = new ServoToPosition(rightExtend,-0.225,this);
         ServoToPosition leftExtendCommand = new ServoToPosition(leftExtend,-0.225,this);
+        ServoToPosition secondWristCommand = new ServoToPosition(secondWrist, 0.9, this);
+        ServoToPosition rightWristCommand = new ServoToPosition(rightWrist, .6, this);
+        ServoToPosition leftWristCommand = new ServoToPosition(leftWrist, .6, this);
 
         return new ParallelGroup(
                 rightExtendCommand,
-                leftExtendCommand
+                leftExtendCommand,
+                secondWristCommand,
+                leftWristCommand,
+                rightWristCommand
+
         );
     }
 
