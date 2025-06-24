@@ -25,7 +25,7 @@ public class master extends Subsystem {
     public static final master INSTANCE = new master();
     private master() { }
 
-    public PIDFController controller = new PIDFController(0.012, 0.0, 0.000, new StaticFeedforward(0.0),10);
+    public PIDFController controller = new PIDFController(0.04, 0.0, 0.000, new StaticFeedforward(0.0),14);
 
 //Arm
     public Servo claw;
@@ -77,8 +77,8 @@ public class master extends Subsystem {
     }
 
     public Command wallPickup() {
-        ServoToPosition leftArmCommand = new ServoToPosition(leftArm, .02, this);
-        ServoToPosition rightArmCommand = new ServoToPosition(rightArm, .02, this);
+        ServoToPosition leftArmCommand = new ServoToPosition(leftArm, .09, this);
+        ServoToPosition rightArmCommand = new ServoToPosition(rightArm, .09, this);
         ServoToPosition secondArmCommand = new ServoToPosition(secondArm, .15, this);
         ServoToPosition clawCommand = new ServoToPosition(claw, 0.85, this);
         ServoToPosition secondWristCommand = new ServoToPosition(secondWrist, 0.9, this);
@@ -86,7 +86,7 @@ public class master extends Subsystem {
         ServoToPosition rightWristCommand = new ServoToPosition(rightWrist, .6, this);
         ServoToPosition rightExtendCommand = new ServoToPosition(rightExtend,-0.225,this);
         ServoToPosition leftExtendCommand = new ServoToPosition(leftExtend, -0.225,this);
-        RunToPosition elevatorCommand = new RunToPosition(elevator,650,controller,this);
+        RunToPosition elevatorCommand = new RunToPosition(elevator,740,controller,this);
 
         return new ParallelGroup(
                 leftArmCommand,
@@ -103,8 +103,8 @@ public class master extends Subsystem {
     }
 
     public Command handoff(){
-        ServoToPosition leftArmCommand = new ServoToPosition(leftArm,.365,this);
-        ServoToPosition rightArmCommand = new ServoToPosition(rightArm,.365,this);
+        ServoToPosition leftArmCommand = new ServoToPosition(leftArm,.45,this);
+        ServoToPosition rightArmCommand = new ServoToPosition(rightArm,.45,this);
         ServoToPosition secondArmCommand = new ServoToPosition(secondArm,.945,this);
         ServoToPosition clawCommand = new ServoToPosition(claw,0.9,this);
         ServoToPosition secondWristCommand = new ServoToPosition(secondWrist, .47, this);
@@ -129,16 +129,16 @@ public class master extends Subsystem {
     }
 
     public Command ramSpec(){
-        ServoToPosition leftArmCommand = new ServoToPosition(leftArm,.61,this);
-        ServoToPosition rightArmCommand = new ServoToPosition(rightArm,.61,this);
-        ServoToPosition secondArmCommand = new ServoToPosition(secondArm,.43,this);
+        ServoToPosition leftArmCommand = new ServoToPosition(leftArm,.7,this);
+        ServoToPosition rightArmCommand = new ServoToPosition(rightArm,.7,this);
+        ServoToPosition secondArmCommand = new ServoToPosition(secondArm,.46,this);
         ServoToPosition secondWristCommand = new ServoToPosition(secondWrist, .47, this);
         ServoToPosition rightWristCommand = new ServoToPosition(rightWrist, .6, this);
         ServoToPosition leftWristCommand = new ServoToPosition(leftWrist, .6, this);
         ServoToPosition leftExtendCommand = new ServoToPosition(leftExtend,-0.225,this);
         ServoToPosition rightExtendCommand = new ServoToPosition(rightExtend, -0.225, this);
         ServoToPosition clawCommand = new ServoToPosition(claw,0.6,this);
-        RunToPosition elevatorCommand = new RunToPosition(elevator,1265,controller,this);
+        RunToPosition elevatorCommand = new RunToPosition(elevator,1315,controller,this);
 
         return new ParallelGroup(
                 leftArmCommand,
@@ -155,14 +155,15 @@ public class master extends Subsystem {
     }
 
     public Command sampScore(){
-        ServoToPosition leftArmCommand = new ServoToPosition(leftArm,.25,this);
-        ServoToPosition rightArmCommand = new ServoToPosition(rightArm,.25,this);
-        ServoToPosition secondArmCommand = new ServoToPosition(secondArm,.27,this);
+        ServoToPosition leftArmCommand = new ServoToPosition(leftArm,.3,this);
+        ServoToPosition rightArmCommand = new ServoToPosition(rightArm,.3,this);
+        ServoToPosition secondArmCommand = new ServoToPosition(secondArm,.31,this);
         ServoToPosition secondWristCommand = new ServoToPosition(secondWrist, 0.59, this);
         ServoToPosition leftWristCommand = new ServoToPosition(leftWrist, .95, this);
         ServoToPosition rightWristCommand = new ServoToPosition(rightWrist, .95, this);
         ServoToPosition rightExtendCommand = new ServoToPosition(rightExtend,-0.225,this);
         ServoToPosition leftExtendCommand = new ServoToPosition(leftExtend, -0.225,this);
+        ServoToPosition clawCommand = new ServoToPosition(claw,0.6,this);
         RunToPosition elevatorCommand = new RunToPosition(elevator,2600,controller,this);
 
         return new ParallelGroup(
@@ -174,6 +175,7 @@ public class master extends Subsystem {
                 rightWristCommand,
                 rightExtendCommand,
                 leftExtendCommand,
+                clawCommand,
                 elevatorCommand
         );
     }
@@ -253,29 +255,36 @@ public class master extends Subsystem {
         );
     }
 
-    public Command autoStart(){
-        ServoToPosition secondWristCommand = new ServoToPosition(secondWrist, 0.9, this);
-        ServoToPosition rightWristCommand = new ServoToPosition(rightWrist, .6, this);
-        ServoToPosition leftWristCommand = new ServoToPosition(leftWrist, .6, this);
-        ServoToPosition leftExtendCommand = new ServoToPosition(leftExtend,-0.225,this);
-        ServoToPosition rightExtendCommand = new ServoToPosition(rightExtend, -0.225, this);
+    public Command autoPickup(){
+        ServoToPosition leftArmCommand = new ServoToPosition(leftArm,.45,this);
+        ServoToPosition rightArmCommand = new ServoToPosition(rightArm,.45,this);
+        ServoToPosition secondArmCommand = new ServoToPosition(secondArm,.945,this);
+        ServoToPosition clawCommand = new ServoToPosition(claw,0.9,this);
+        ServoToPosition secondWristCommand = new ServoToPosition(secondWrist, 0.59, this);
+        ServoToPosition leftWristCommand = new ServoToPosition(leftWrist, .95, this);
+        ServoToPosition rightWristCommand = new ServoToPosition(rightWrist, .95, this);
+        ServoToPosition leftExtendCommand = new ServoToPosition(leftExtend,0.2,this);
+        ServoToPosition rightExtendCommand = new ServoToPosition(rightExtend, 0.2, this);
+        RunToPosition elevatorCommand = new RunToPosition(elevator,0,controller,this);
 
-        // Combine them into a ParallelCommandGroup
-        // This command group will run all three commands simultaneously.
-        // The handoff() command will finish when ALL sub-commands have finished.
         return new ParallelGroup(
+                leftArmCommand,
+                rightArmCommand,
+                secondArmCommand,
+                clawCommand,
                 secondWristCommand,
-                leftWristCommand,
-                rightWristCommand,
+                rightExtendCommand,
                 leftExtendCommand,
-                rightExtendCommand
+                rightWristCommand,
+                leftWristCommand,
+                elevatorCommand
         );
     }
 
     public Command intake = new LambdaCommand()
             .setStart(()-> {
-                leftIntake.setPower(1);
-                rightIntake.setPower(1);
+                leftIntake.setPower(-1);
+                rightIntake.setPower(-1);
             });
 
     public Command getIntakeCommand(Float aFloat) {
@@ -294,8 +303,8 @@ public class master extends Subsystem {
 
     public Command eject = new LambdaCommand()
             .setStart(()-> {
-                leftIntake.setPower(-1);
-                rightIntake.setPower(-1);
+                leftIntake.setPower(1);
+                rightIntake.setPower(1);
             });
 
     public Command getEjectCommand(Float aFloat) {

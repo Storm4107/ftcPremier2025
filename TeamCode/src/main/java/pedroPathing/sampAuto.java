@@ -9,7 +9,9 @@ import com.pedropathing.pathgen.Path;
 import com.pedropathing.pathgen.Point;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.rowanmcalpin.nextftc.core.command.Command;
+import com.rowanmcalpin.nextftc.core.command.groups.ParallelGroup;
 import com.rowanmcalpin.nextftc.core.command.groups.SequentialGroup;
+import com.rowanmcalpin.nextftc.core.command.utility.delays.Delay;
 import com.rowanmcalpin.nextftc.pedro.FollowPath;
 import com.rowanmcalpin.nextftc.pedro.PedroOpMode;
 
@@ -21,38 +23,79 @@ import pedroPathing.constants.LConstants;
     public class sampAuto extends PedroOpMode {
     public sampAuto() {super(master.INSTANCE);}
 
-    private final Pose startPose = new Pose(12,108,Math.toRadians(-90));
+    private final Pose startPose = new Pose(9,108,Math.toRadians(-90));
 
+    private Path straight1;
+    private Path straight2;
+    private Path straight3;
+    private Path straight4;
+    private Path straight5;
+    private Path straight6;
     private Path curve1;
-    private Path curve2;
-    private Path curve3;
-    private Path curve4;
-    private Path curve5;
 
     private void buildPaths() {
-        curve1 = new Path(new BezierCurve(new Point(12,108), new Point(10.9, 112.7), new Point(10.9,121.2), new Point(15,128.5)));
-        curve1.setLinearHeadingInterpolation(-90, -45);
+        curve1 = new Path(new BezierCurve(new Point(9,108), new Point(25, 114.6), new Point(14.7,120.4)));
+        curve1.setLinearHeadingInterpolation(Math.toRadians(-90),Math.toRadians(-40));
 
-        curve2 = new Path(new BezierCurve(new Point(15,128.5), new Point(17.6, 124.5), new Point(21.2,122.4), new Point(26,121)));
-        curve2.setLinearHeadingInterpolation(0, 0);
+        straight1 = new Path(new BezierCurve(new Point(14.7,120.4), new Point(13,118.5)));
+        straight1.setLinearHeadingInterpolation(Math.toRadians(-40),Math.toRadians(0));
 
-        curve3 = new Path(new BezierCurve(new Point(26,121), new Point(21.5, 123), new Point(18,125.5), new Point(15,128.5)));
-        curve3.setLinearHeadingInterpolation(0, 0);
+        straight2 = new Path(new BezierCurve(new Point(13,118.5), new Point(24,120.5)));
+        straight2.setLinearHeadingInterpolation(Math.toRadians(0),Math.toRadians(0));
 
-        curve4 = new Path(new BezierCurve(new Point(15,128.5), new Point(19.3, 129.8), new Point(23.2,131.1), new Point(26,131.25)));
-        curve4.setLinearHeadingInterpolation(0, 0);
+        straight3 = new Path(new BezierCurve(new Point(24,120.5), new Point(16.7,122.4)));
+        straight3.setLinearHeadingInterpolation(Math.toRadians(0),Math.toRadians(-40));
 
-        curve5 = new Path(new BezierCurve(new Point(26,131.25), new Point(23.2, 131.1), new Point(19.3,129.8), new Point(15,128.5)));
-        curve5.setLinearHeadingInterpolation(0, 0);
+        straight4 = new Path(new BezierCurve(new Point(16.7,122.4), new Point(13,128)));
+        straight4.setLinearHeadingInterpolation(Math.toRadians(-40),Math.toRadians(0));
+
+        straight5 = new Path(new BezierCurve(new Point(13,128), new Point(27,128)));
+        straight5.setLinearHeadingInterpolation(Math.toRadians(0),Math.toRadians(0));
+
+        straight6 = new Path(new BezierCurve(new Point(27,128), new Point(14.7,124.4)));
+        straight6.setLinearHeadingInterpolation(Math.toRadians(0),Math.toRadians(-40));
     }
 
     private Command secondRoutine(){
         return new SequentialGroup(
-                new FollowPath(curve1)
-                /*new FollowPath(curve2),
-                new FollowPath(curve3),
-                new FollowPath(curve4),
-                new FollowPath(curve5)*/
+                master.INSTANCE.sampScore(),
+                new FollowPath(curve1),
+                new Delay(1),
+                master.INSTANCE.open(),
+                new Delay(1),
+                new ParallelGroup(
+                        master.INSTANCE.autoPickup(),
+                        master.INSTANCE.intake,
+                        new FollowPath(straight1)
+                ),
+                new FollowPath(straight2),
+                master.INSTANCE.handoff(),
+                master.INSTANCE.intakeOff,
+                new Delay(1),
+                master.INSTANCE.close(),
+                new Delay(1),
+                master.INSTANCE.sampScore(),
+                new FollowPath(straight3),
+                new Delay(1),
+                master.INSTANCE.open(),
+                new Delay(1),
+                new ParallelGroup(
+                        master.INSTANCE.autoPickup(),
+                        master.INSTANCE.intake,
+                        new FollowPath(straight4)
+                ),
+                new FollowPath(straight5),
+                master.INSTANCE.handoff(),
+                master.INSTANCE.intakeOff,
+                new Delay(1),
+                master.INSTANCE.close(),
+                new Delay(1),
+                master.INSTANCE.sampScore(),
+                new FollowPath(straight6),
+                new Delay(1),
+                master.INSTANCE.open(),
+                new Delay(1),
+                master.INSTANCE.handoff()
         );
     }
 
@@ -60,7 +103,6 @@ import pedroPathing.constants.LConstants;
     public void onInit(){
         follower = new Follower(hardwareMap, FConstants.class, LConstants.class);
         follower.setStartingPose(startPose);
-        master.INSTANCE.autoStart();
         buildPaths();
     }
     @Override

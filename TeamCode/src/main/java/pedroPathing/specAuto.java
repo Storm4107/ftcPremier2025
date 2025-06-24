@@ -28,9 +28,9 @@ public class specAuto extends PedroOpMode {
     }
     private final Pose startPose = new Pose(8,72,Math.toRadians(0));
     private final Pose chamberPose = new Pose(42,72,Math.toRadians(0));
-    private final Pose wallPose = new Pose(9,16.2,Math.toRadians(0));
+    private final Pose wallPose = new Pose(8.25,16.2,Math.toRadians(0));
     private final Pose interPose = new Pose(63.2,16.2,Math.toRadians(0));
-    private final Pose humanPose = new Pose(15,16.2, Math.toRadians(0));
+    private final Pose humanPose = new Pose(18,16.2, Math.toRadians(0));
     private final Pose closeHumanPose = new Pose(25,16.2,Math.toRadians(0));
     private PathChain path1;
     private PathChain path2;
@@ -39,6 +39,8 @@ public class specAuto extends PedroOpMode {
     private Path curve1;
     private Path curve2;
     private Path curve3;
+    private Path curve4;
+    private Path curve5;
     private Telemetry telemetryA;
     private void buildPaths() {
         path1 = follower.pathBuilder()
@@ -63,8 +65,14 @@ public class specAuto extends PedroOpMode {
         curve2 = new Path(new BezierCurve(new Point(65.5, 28), new Point(-43.4,11.5), new Point(81.6,37.4), new Point(63.2,16.2)));
         curve2.setLinearHeadingInterpolation(0.0, 0.0);
 
-        curve3 = new Path(new BezierCurve(new Point(7, 16.2), new Point(19,72), new Point(43,70)));
+        curve3 = new Path(new BezierCurve(new Point(7, 16.2), new Point(19,72), new Point(39,78)));
         curve3.setLinearHeadingInterpolation(0.0, 0.0);
+
+        curve4 = new Path(new BezierCurve(new Point(39, 70), new Point(8.25,54.2), new Point(8.25,21)));
+        curve4.setLinearHeadingInterpolation(0.0, 0.0);
+
+        curve5 = new Path(new BezierCurve(new Point(8.25, 21), new Point(8.25,54.2), new Point(39,70)));
+        curve5.setLinearHeadingInterpolation(0.0, 0.0);
     }
     private Command secondRoutine(){
         return new SequentialGroup(
@@ -74,7 +82,7 @@ public class specAuto extends PedroOpMode {
                 new Delay(1),
                 new FollowPath(curve1),
                 new FollowPath(curve2),
-                master.INSTANCE.wallPickup(),
+                master.INSTANCE.wallPickup().endAfter(2),
                 new FollowPath(path2),
                 new FollowPath(path3),
                 new Delay(2),
@@ -82,8 +90,29 @@ public class specAuto extends PedroOpMode {
                 master.INSTANCE.close(),
                 new Delay(2),
                 new ParallelGroup(
-                        master.INSTANCE.ramSpec(),
+                        master.INSTANCE.ramSpec().endAfter(3),
                         new FollowPath(curve3)
+                ),
+                new Delay(1),
+                master.INSTANCE.open(),
+                new Delay(1),
+                new ParallelGroup(
+                        new FollowPath(curve4),
+                        master.INSTANCE.wallPickup().endAfter(3)
+                ),
+                new Delay(1),
+                master.INSTANCE.close(),
+                new Delay(1),
+                new ParallelGroup(
+                        master.INSTANCE.ramSpec(),
+                        new FollowPath(curve5)
+                ),
+                new Delay(1),
+                master.INSTANCE.open(),
+                new Delay(1),
+                new ParallelGroup(
+                        master.INSTANCE.handoff(),
+                        new FollowPath(curve4)
                 )
         );
     }
@@ -91,7 +120,6 @@ public class specAuto extends PedroOpMode {
     public void onInit(){
         follower = new Follower(hardwareMap, FConstants.class, LConstants.class);
         follower.setStartingPose(startPose);
-        master.INSTANCE.autoStart();
         buildPaths();
     }
     @Override
