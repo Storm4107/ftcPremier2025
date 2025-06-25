@@ -16,6 +16,7 @@ import com.rowanmcalpin.nextftc.ftc.NextFTCOpMode;
 import com.rowanmcalpin.nextftc.ftc.OpModeData;
 import com.rowanmcalpin.nextftc.ftc.hardware.controllables.MotorEx;
 import com.rowanmcalpin.nextftc.ftc.driving.MecanumDriverControlled;
+import com.rowanmcalpin.nextftc.ftc.hardware.controllables.ResetEncoder;
 
 import pedroPathing.Subsystem.master;
 
@@ -75,10 +76,8 @@ public class Kentucky25 extends NextFTCOpMode {
         driverControlled.invoke();
 
         setGamePad2Commands();
-        update();
     }
-        public void setGamePad2Commands() {
-        gamepadManager.getGamepad2().getDpadUp().setPressedCommand(master.INSTANCE::sampScore);
+        public void setGamePad2Commands() {gamepadManager.getGamepad2().getDpadUp().setPressedCommand(master.INSTANCE::sampScore);
         gamepadManager.getGamepad2().getDpadDown().setPressedCommand(master.INSTANCE::ramSpec);
         gamepadManager.getGamepad2().getDpadLeft().setPressedCommand(master.INSTANCE::fullIn);
         gamepadManager.getGamepad2().getDpadRight().setPressedCommand(master.INSTANCE::fullOut);
@@ -100,11 +99,13 @@ public class Kentucky25 extends NextFTCOpMode {
         gamepadManager.getGamepad2().getRightTrigger().setReleasedCommand(master.INSTANCE::getIntakeOffCommand);
 
         gamepadManager.getGamepad1().getY().setPressedCommand(()-> resetGyro);
+
         }
 
-    public void update(){
+        @Override
+    public void onUpdate(){
         //Executed on every update of the command
-        telemetry.addData("CurrentPosition", master.INSTANCE.elevator.getCurrentPosition());
+        telemetry.addData("CurrentPosition", master.INSTANCE.getEncoderCount());
         telemetry.update();
     }
 }

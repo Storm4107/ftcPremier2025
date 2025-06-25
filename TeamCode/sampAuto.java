@@ -21,13 +21,13 @@ import pedroPathing.Subsystem.master;
 import pedroPathing.constants.FConstants;
 import pedroPathing.constants.LConstants;
 
-@Autonomous(name = "specAuto")
+@Autonomous(name = "sampAuto")
 public class specAuto extends PedroOpMode {
     public specAuto() {
         super(master.INSTANCE);
     }
     private final Pose startPose = new Pose(8,72,Math.toRadians(0));
-    private final Pose chamberPose = new Pose(42,72,Math.toRadians(0));
+    private final Pose chamberPose = new Pose(43,72,Math.toRadians(0));
     private final Pose wallPose = new Pose(9,16.2,Math.toRadians(0));
     private final Pose interPose = new Pose(63.2,16.2,Math.toRadians(0));
     private final Pose humanPose = new Pose(15,16.2, Math.toRadians(0));
@@ -42,7 +42,7 @@ public class specAuto extends PedroOpMode {
     private Telemetry telemetryA;
     private void buildPaths() {
         path1 = follower.pathBuilder()
-            .addPath(new BezierLine(new Point(startPose), new Point(chamberPose)))
+                .addPath(new BezierLine(new Point(startPose), new Point(chamberPose)))
                 .setLinearHeadingInterpolation(startPose.getHeading(), chamberPose.getHeading())
                 .build();
         path2 = follower.pathBuilder()
@@ -57,7 +57,7 @@ public class specAuto extends PedroOpMode {
                 .addPath(new BezierLine(new Point(closeHumanPose), new Point(wallPose)))
                 .setLinearHeadingInterpolation(closeHumanPose.getHeading(), wallPose.getHeading())
                 .build();
-        curve1 = new Path(new BezierCurve(new Point(42,72), new Point(-12, 22), new Point(75,49), new Point(65.5,28)));
+        curve1 = new Path(new BezierCurve(new Point(43,72), new Point(-12, 22), new Point(75,49), new Point(65.5,28)));
         curve1.setLinearHeadingInterpolation(0.0, 0.0);
 
         curve2 = new Path(new BezierCurve(new Point(65.5, 28), new Point(-43.4,11.5), new Point(81.6,37.4), new Point(63.2,16.2)));
@@ -66,7 +66,7 @@ public class specAuto extends PedroOpMode {
         curve3 = new Path(new BezierCurve(new Point(7, 16.2), new Point(19,72), new Point(43,70)));
         curve3.setLinearHeadingInterpolation(0.0, 0.0);
     }
-    private Command secondRoutine(){
+    /*private Command secondRoutine(){
         return new SequentialGroup(
                 master.INSTANCE.ramSpec(),
                 new FollowPath(path1),
@@ -80,22 +80,21 @@ public class specAuto extends PedroOpMode {
                 new Delay(2),
                 new FollowPath(path4),
                 master.INSTANCE.close(),
-                new Delay(2),
                 new ParallelGroup(
                         master.INSTANCE.ramSpec(),
                         new FollowPath(curve3)
                 )
         );
-    }
+    }*/
     @Override
     public void onInit(){
         follower = new Follower(hardwareMap, FConstants.class, LConstants.class);
         follower.setStartingPose(startPose);
-        master.INSTANCE.autoStart();
+        //master.INSTANCE.autoStart();
         buildPaths();
     }
     @Override
     public void onStartButtonPressed() {
-        secondRoutine().invoke();
+        //secondRoutine().invoke();
     }
 }
