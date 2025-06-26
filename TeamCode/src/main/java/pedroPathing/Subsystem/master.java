@@ -302,6 +302,15 @@ public class master extends Subsystem {
         return eject;
     }
 
+    public Command setElevatorPosition(double position) {
+        return new LambdaCommand()
+                .setStart(()-> {
+                    controller.reset();
+                })
+                .setUpdate(()-> {elevator.setPower(controller.calculate(position, elevator.getCurrentPosition()));})
+                .setIsDone(()->controller.atTarget());
+    }
+
     public void initialize(){
 //Arm
         claw = OpModeData.INSTANCE.getHardwareMap().get(Servo.class,clawName);
