@@ -11,6 +11,8 @@ import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.rowanmcalpin.nextftc.core.command.Command;
 import com.rowanmcalpin.nextftc.core.command.utility.InstantCommand;
+import com.rowanmcalpin.nextftc.core.control.controllers.PIDFController;
+import com.rowanmcalpin.nextftc.core.control.controllers.feedforward.StaticFeedforward;
 import com.rowanmcalpin.nextftc.ftc.NextFTCOpMode;
 
 import com.rowanmcalpin.nextftc.ftc.OpModeData;
@@ -72,7 +74,32 @@ public class Kentucky25 extends NextFTCOpMode {
 
     @Override
     public void onStartButtonPressed() {
-        driverControlled = new MecanumDriverControlled(motors, gamepadManager.getGamepad1(), false,imu);
+        float thetaInput;
+        float yInput;
+        float xInput;
+        PIDFController thetaController = new PIDFController(0.1, 0 ,0, new StaticFeedforward(0));
+
+        //Heading lock button code
+        //Locks the heading to 0 degrees when left bumper is held, else control the heading with the joystick
+        if (gamepadManager.getGamepad1().getLeftBumper().getState()) {
+            thetaInput = (float) thetaController.calculate(imu.getRobotYawPitchRollAngles().getYaw(), 0.0);
+        } else {
+            thetaInput = gamepadManager.getGamepad1().getRightStick().getX();
+        }
+
+        //Slowdown button code
+        //Compares the gamepad trigger value and cuts the yInput in half if it is held
+        if (gamepadManager.getGamepad1().getLeftTrigger().getValue() > 0.5) {
+            yInput = (float) (gamepadManager.getGamepad1().getLeftStick().getY() * 0.3);
+            xInput = (float) (gamepadManager.getGamepad1().getLeftStick().getX() * 0.3);
+            thetaInput = (float) (thetaInput * 0.3);
+        } else {
+            yInput = gamepadManager.getGamepad1().getLeftStick().getY();
+            xInput = gamepadManager.getGamepad1().getLeftStick().getX();
+            thetaInput = thetaInput;
+        }
+
+        driverControlled = new MecanumDriverControlled(motors, ()-> yInput, ()->xInput, ()-> thetaInput, false,imu);
         driverControlled.invoke();
 
         setGamePad2Commands();
