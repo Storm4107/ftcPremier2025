@@ -92,11 +92,9 @@ public class Kentucky25 extends NextFTCOpMode {
         if (gamepadManager.getGamepad1().getLeftTrigger().getValue() > 0.5) {
             yInput = (float) (gamepadManager.getGamepad1().getLeftStick().getY() * 0.3);
             xInput = (float) (gamepadManager.getGamepad1().getLeftStick().getX() * 0.3);
-            thetaInput = (float) (thetaInput * 0.3);
         } else {
             yInput = gamepadManager.getGamepad1().getLeftStick().getY();
             xInput = gamepadManager.getGamepad1().getLeftStick().getX();
-            thetaInput = thetaInput;
         }
 
         driverControlled = new MecanumDriverControlled(motors, ()-> yInput, ()->xInput, ()-> thetaInput, false,imu);
