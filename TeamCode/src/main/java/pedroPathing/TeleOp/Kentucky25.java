@@ -100,6 +100,8 @@ public class Kentucky25 extends NextFTCOpMode {
 
         gamepadManager.getGamepad1().getY().setPressedCommand(()-> resetGyro);
 
+        gamepadManager.getGamepad2().getBack().setPressedCommand(master.INSTANCE::elevatorUp);
+
         }
 
         @Override
