@@ -48,8 +48,14 @@ public class Kentucky25 extends NextFTCOpMode {
 
     public IMU imu;
 
+    public PIDFController thetaController = new PIDFController(0.02, 0 ,0.0, new StaticFeedforward(0));
+
+
     @Override
     public void onInit() {
+
+        thetaController.setSetPointTolerance(2.0);
+
         frontLeftMotor = new MotorEx(frontLeftName);
         backLeftMotor = new MotorEx(backLeftName);
         backRightMotor = new MotorEx(backRightName);
@@ -116,17 +122,16 @@ public class Kentucky25 extends NextFTCOpMode {
             float thetaInput;
             float yInput;
             float xInput;
-            PIDFController thetaController = new PIDFController(0.03, 0 ,0.01, new StaticFeedforward(0));
 
             //Heading lock button code
             //Locks the heading to 0 degrees when left bumper is held, else control the heading with the joystick
             if (gamepadManager.getGamepad1().getLeftTrigger().getValue() > 0.5) {
-                thetaInput = (float) thetaController.calculate(imu.getRobotYawPitchRollAngles().getYaw(), Math.toRadians(180));
+                thetaInput = (float) -thetaController.calculate(imu.getRobotYawPitchRollAngles().getYaw(), calculateContinousSetpoint(imu.getRobotYawPitchRollAngles().getYaw(), 0));
             } else {
                 if (gamepadManager.getGamepad1().getLeftBumper().getState()) {
-                    thetaInput = (float) thetaController.calculate(imu.getRobotYawPitchRollAngles().getYaw(), Math.toRadians(180));
+                    thetaInput = (float) -thetaController.calculate(imu.getRobotYawPitchRollAngles().getYaw(), calculateContinousSetpoint(imu.getRobotYawPitchRollAngles().getYaw(), 180));
                 } else {
-                    thetaInput = gamepadManager.getGamepad1().getRightStick().getX();
+                    thetaInput = (float) (gamepadManager.getGamepad1().getRightStick().getX() * 0.85);
                 }
             }
 
@@ -140,7 +145,22 @@ public class Kentucky25 extends NextFTCOpMode {
                 xInput = gamepadManager.getGamepad1().getLeftStick().getX();
             }
 
+            telemetry.addData("Theta input", thetaInput);
+
             driverControlled = new MecanumDriverControlled(motors, ()-> yInput, ()->xInput, ()-> thetaInput, false,imu);
             driverControlled.invoke();
+    }
+
+    public double calculateContinousSetpoint(double CurrentAngle, double TargetAngle) {
+        TargetAngle= Math.IEEEremainder(TargetAngle, 360);
+        double remainder = CurrentAngle % (360);
+        double adjustedAngleSetpoint = TargetAngle + (CurrentAngle - remainder);
+
+        if (adjustedAngleSetpoint - CurrentAngle > 180) {
+            adjustedAngleSetpoint -= 360;
+        } else if (adjustedAngleSetpoint - CurrentAngle < -180) {
+            adjustedAngleSetpoint += 360;
+        }
+        return adjustedAngleSetpoint;
     }
 }
