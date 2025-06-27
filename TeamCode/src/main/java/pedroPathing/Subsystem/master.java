@@ -25,7 +25,7 @@ public class master extends Subsystem {
     public static final master INSTANCE = new master();
     private master() { }
 
-    public PIDFController controller = new PIDFController(0.08, 0.0, 0.000, new StaticFeedforward(0.0),15);
+    public PIDFController controller = new PIDFController(0.08, 0.0, 0.000, new StaticFeedforward(0.0),5);
 
 //Arm
     public Servo claw;
@@ -79,14 +79,14 @@ public class master extends Subsystem {
     public Command wallPickup() {
         ServoToPosition leftArmCommand = new ServoToPosition(leftArm, 0, this);
         ServoToPosition rightArmCommand = new ServoToPosition(rightArm, 0, this);
-        ServoToPosition secondArmCommand = new ServoToPosition(secondArm, .2, this);
+        ServoToPosition secondArmCommand = new ServoToPosition(secondArm, .22, this);
         ServoToPosition clawCommand = new ServoToPosition(claw, 0.85, this);
         ServoToPosition secondWristCommand = new ServoToPosition(secondWrist, 0.9, this);
         ServoToPosition leftWristCommand = new ServoToPosition(leftWrist, .6, this);
         ServoToPosition rightWristCommand = new ServoToPosition(rightWrist, .6, this);
         ServoToPosition rightExtendCommand = new ServoToPosition(rightExtend,-0.225,this);
         ServoToPosition leftExtendCommand = new ServoToPosition(leftExtend, -0.225,this);
-        RunToPosition elevatorCommand = new RunToPosition(elevator,780,controller,this);
+        RunToPosition elevatorCommand = new RunToPosition(elevator,706,controller,this);
 
         return new ParallelGroup(
                 leftArmCommand,
@@ -112,7 +112,7 @@ public class master extends Subsystem {
         ServoToPosition leftWristCommand = new ServoToPosition(leftWrist, .6, this);
         ServoToPosition leftExtendCommand = new ServoToPosition(leftExtend,-0.225,this);
         ServoToPosition rightExtendCommand = new ServoToPosition(rightExtend, -0.225, this);
-        RunToPosition elevatorCommand = new RunToPosition(elevator,0,controller,this);
+        RunToPosition elevatorCommand = new RunToPosition(elevator,2,controller,this);
 
         return new ParallelGroup(
                 leftArmCommand,
@@ -182,9 +182,10 @@ public class master extends Subsystem {
 
     public Command sampPickUp(){
         // Create individual servo commands
-        ServoToPosition secondWristCommand = new ServoToPosition(secondWrist, 0.59, this);
-        ServoToPosition leftWristCommand = new ServoToPosition(leftWrist, .95, this);
-        ServoToPosition rightWristCommand = new ServoToPosition(rightWrist, .95, this);
+        ServoToPosition secondWristCommand = new ServoToPosition(secondWrist, 0.64, this);
+        ServoToPosition leftWristCommand = new ServoToPosition(leftWrist, .93, this);
+        ServoToPosition rightWristCommand = new ServoToPosition(rightWrist, .93
+                , this);
 
         // Combine them into a ParallelCommandGroup
         // This command group will run all three commands simultaneously.
@@ -197,8 +198,8 @@ public class master extends Subsystem {
     }
 
     public Command fullOut(){
-        ServoToPosition rightExtendCommand = new ServoToPosition(rightExtend,0.25,this);
-        ServoToPosition leftExtendCommand = new ServoToPosition(leftExtend,0.25,this);
+        ServoToPosition rightExtendCommand = new ServoToPosition(rightExtend,0.28,this);
+        ServoToPosition leftExtendCommand = new ServoToPosition(leftExtend,0.28,this);
 
         return new ParallelGroup(
                 rightExtendCommand,
@@ -273,7 +274,7 @@ public class master extends Subsystem {
         ServoToPosition rightWristCommand = new ServoToPosition(rightWrist, .95, this);
         ServoToPosition leftExtendCommand = new ServoToPosition(leftExtend,0.2,this);
         ServoToPosition rightExtendCommand = new ServoToPosition(rightExtend, 0.2, this);
-        RunToPosition elevatorCommand = new RunToPosition(elevator,0,controller,this);
+        RunToPosition elevatorCommand = new RunToPosition(elevator,2,controller,this);
 
         return new ParallelGroup(
                 leftArmCommand,

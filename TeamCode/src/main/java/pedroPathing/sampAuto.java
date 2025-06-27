@@ -40,13 +40,13 @@ import pedroPathing.constants.LConstants;
         curve1 = new Path(new BezierCurve(new Point(9,108), new Point(25, 114.6), new Point(15,126.4)));
         curve1.setLinearHeadingInterpolation(Math.toRadians(-90),Math.toRadians(-40));
 
-        straight1 = new Path(new BezierCurve(new Point(14.7,120.4), new Point(13,118.5)));
+        straight1 = new Path(new BezierCurve(new Point(15,126.4), new Point(11,118)));
         straight1.setLinearHeadingInterpolation(Math.toRadians(-40),Math.toRadians(0));
 
-        straight2 = new Path(new BezierCurve(new Point(13,118.5), new Point(24,122.5)));
+        straight2 = new Path(new BezierCurve(new Point(11,118), new Point(22,118)));
         straight2.setLinearHeadingInterpolation(Math.toRadians(0),Math.toRadians(0));
 
-        straight3 = new Path(new BezierCurve(new Point(24,120.5), new Point(15,126.4)));
+        straight3 = new Path(new BezierCurve(new Point(22,118), new Point(15,126.4)));
         straight3.setLinearHeadingInterpolation(Math.toRadians(0),Math.toRadians(-40));
 
         straight4 = new Path(new BezierCurve(new Point(16.7,122.4), new Point(13,128)));
@@ -58,14 +58,14 @@ import pedroPathing.constants.LConstants;
         straight6 = new Path(new BezierCurve(new Point(27,128), new Point(15,126.4)));
         straight6.setLinearHeadingInterpolation(Math.toRadians(0),Math.toRadians(-40));
 
-        straight7 = new Path(new BezierCurve(new Point(15,126.4), new Point(15,126.4)));
-        straight7.setLinearHeadingInterpolation(Math.toRadians(-40),Math.toRadians(-20));
+        straight7 = new Path(new BezierCurve(new Point(15,126.4), new Point(14,118.4)));
+        straight7.setLinearHeadingInterpolation(Math.toRadians(-40),Math.toRadians(27));
 
-        straight8 = new Path(new BezierCurve(new Point(15,126.4), new Point(20,131.4)));
-        straight8.setLinearHeadingInterpolation(Math.toRadians(-20),Math.toRadians(-20));
+        straight8 = new Path(new BezierCurve(new Point(14,118.4), new Point(22,128.4)));
+        straight8.setLinearHeadingInterpolation(Math.toRadians(27),Math.toRadians(27));
 
-        straight8 = new Path(new BezierCurve(new Point(20,131.4), new Point(15,126.4)));
-        straight8.setLinearHeadingInterpolation(Math.toRadians(-20),Math.toRadians(-40));
+        straight9 = new Path(new BezierCurve(new Point(22,128.4), new Point(15,126.4)));
+        straight9.setLinearHeadingInterpolation(Math.toRadians(27),Math.toRadians(-40));
     }
 
     private Command secondRoutine(){
@@ -119,7 +119,7 @@ import pedroPathing.constants.LConstants;
                         master.INSTANCE.autoPickup(),
                         master.INSTANCE.intake,
                         new FollowPath(straight7)
-                ),
+                ).endAfter(10),
                 new FollowPath(straight8),
                 master.INSTANCE.handoff(),
                 master.INSTANCE.intakeOff,
