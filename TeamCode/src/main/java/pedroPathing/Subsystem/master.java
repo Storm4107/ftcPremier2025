@@ -197,8 +197,8 @@ public class master extends Subsystem {
     }
 
     public Command fullOut(){
-        ServoToPosition rightExtendCommand = new ServoToPosition(rightExtend,0.31,this);
-        ServoToPosition leftExtendCommand = new ServoToPosition(leftExtend,0.31,this);
+        ServoToPosition rightExtendCommand = new ServoToPosition(rightExtend,0.25,this);
+        ServoToPosition leftExtendCommand = new ServoToPosition(leftExtend,0.25,this);
 
         return new ParallelGroup(
                 rightExtendCommand,
