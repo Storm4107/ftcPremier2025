@@ -25,7 +25,7 @@ public class master extends Subsystem {
     public static final master INSTANCE = new master();
     private master() { }
 
-    public PIDFController controller = new PIDFController(0.08, 0.0, 0.000, new StaticFeedforward(0.0),5);
+    public PIDFController controller = new PIDFController(0.07, 0.0, 0.000, new StaticFeedforward(0.0),5);
 
 //Arm
     public Servo claw;
@@ -138,7 +138,7 @@ public class master extends Subsystem {
         ServoToPosition leftExtendCommand = new ServoToPosition(leftExtend,-0.225,this);
         ServoToPosition rightExtendCommand = new ServoToPosition(rightExtend, -0.225, this);
         ServoToPosition clawCommand = new ServoToPosition(claw,0.6,this);
-        RunToPosition elevatorCommand = new RunToPosition(elevator,1315,controller,this);
+        RunToPosition elevatorCommand = new RunToPosition(elevator,1285,controller,this);
 
         return new ParallelGroup(
                 leftArmCommand,
@@ -349,8 +349,8 @@ public class master extends Subsystem {
         MotorEx leftLift = new MotorEx("leftLift");
         MotorEx rightLift = new MotorEx("rightLift");
 
-        rightLift.setDirection(DcMotorSimple.Direction.REVERSE);
-        leftLift.setDirection(DcMotorSimple.Direction.FORWARD);
+        rightLift.setDirection(DcMotorSimple.Direction.FORWARD);
+        leftLift.setDirection(DcMotorSimple.Direction.REVERSE);
 
         elevator = new MotorGroup(rightLift, leftLift);
 

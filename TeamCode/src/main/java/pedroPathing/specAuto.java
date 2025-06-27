@@ -28,7 +28,7 @@ public class specAuto extends PedroOpMode {
     }
     private final Pose startPose = new Pose(8,72,Math.toRadians(0));
     private final Pose chamberPose = new Pose(42,72,Math.toRadians(0));
-    private final Pose wallPose = new Pose(8.25,16.2,Math.toRadians(0));
+    private final Pose wallPose = new Pose(9,16.2,Math.toRadians(0));
     private final Pose interPose = new Pose(63.2,16.2,Math.toRadians(0));
     private final Pose humanPose = new Pose(18,16.2, Math.toRadians(0));
     private final Pose closeHumanPose = new Pose(25,16.2,Math.toRadians(0));
@@ -36,11 +36,14 @@ public class specAuto extends PedroOpMode {
     private PathChain path2;
     private PathChain path3;
     private PathChain path4;
+
+    private PathChain path5;
     private Path curve1;
     private Path curve2;
     private Path curve3;
     private Path curve4;
     private Path curve5;
+    private Path curve6;
     private Telemetry telemetryA;
     private void buildPaths() {
         path1 = follower.pathBuilder()
@@ -59,20 +62,28 @@ public class specAuto extends PedroOpMode {
                 .addPath(new BezierLine(new Point(closeHumanPose), new Point(wallPose)))
                 .setLinearHeadingInterpolation(closeHumanPose.getHeading(), wallPose.getHeading())
                 .build();
-        curve1 = new Path(new BezierCurve(new Point(42,72), new Point(-12, 22), new Point(75,49), new Point(65.5,28)));
+        path5 = follower.pathBuilder()
+                .addPath(new BezierLine(new Point(humanPose), new Point(chamberPose)))
+                .setLinearHeadingInterpolation(closeHumanPose.getHeading(), wallPose.getHeading())
+                .build();
+
+        curve1 = new Path(new BezierCurve(new Point(42,72), new Point(57.15, 27.91), new Point(1.77,8.86), new Point(84.85,53.17)));
         curve1.setLinearHeadingInterpolation(0.0, 0.0);
 
-        curve2 = new Path(new BezierCurve(new Point(65.5, 28), new Point(-43.4,11.5), new Point(81.6,37.4), new Point(63.2,16.2)));
+        curve2 = new Path(new BezierCurve(new Point(84.85, 53.17),new Point(15.95,25.7)));
         curve2.setLinearHeadingInterpolation(0.0, 0.0);
 
-        curve3 = new Path(new BezierCurve(new Point(7, 16.2), new Point(19,72), new Point(39,78)));
+        curve3 = new Path(new BezierCurve(new Point(15.95, 25.7), new Point(68.01,47.41), new Point(57.16,17.5)));
         curve3.setLinearHeadingInterpolation(0.0, 0.0);
 
-        curve4 = new Path(new BezierCurve(new Point(39, 70), new Point(8.25,54.2), new Point(8.25,21)));
+        curve4 = new Path(new BezierCurve(new Point(57.16, 17.5),new Point(25,16.2)));
         curve4.setLinearHeadingInterpolation(0.0, 0.0);
 
-        curve5 = new Path(new BezierCurve(new Point(8.25, 21), new Point(8.25,54.2), new Point(39,70)));
+        curve5 = new Path(new BezierCurve(new Point(25, 16.2),new Point(30,16.2)));
         curve5.setLinearHeadingInterpolation(0.0, 0.0);
+
+        curve6 = new Path(new BezierCurve(new Point(30, 16.2),new Point(9,16.2)));
+        curve6.setLinearHeadingInterpolation(0.0, 0.0);
     }
     private Command secondRoutine(){
         return new SequentialGroup(
@@ -83,8 +94,23 @@ public class specAuto extends PedroOpMode {
                 new FollowPath(curve1),
                 new FollowPath(curve2),
                 master.INSTANCE.wallPickup().endAfter(2),
-                new FollowPath(path2),
-                new FollowPath(path3),
+                new FollowPath(curve3),
+                new FollowPath(curve4),
+                new FollowPath(curve5),
+                new Delay(2),
+                new FollowPath(curve6),
+                new Delay(1),
+                master.INSTANCE.close(),
+                new Delay(1),
+                new ParallelGroup(
+                        master.INSTANCE.ramSpec(),
+                        new FollowPath(path5)
+                ).endAfter(3),
+                new Delay(1),
+                master.INSTANCE.open(),
+                new Delay(1),
+                master.INSTANCE.handoff()
+                /*new FollowPath(path3),
                 new Delay(2),
                 new FollowPath(path4),
                 master.INSTANCE.close(),
@@ -113,7 +139,7 @@ public class specAuto extends PedroOpMode {
                 new ParallelGroup(
                         master.INSTANCE.handoff(),
                         new FollowPath(curve4)
-                )
+                )*/
         );
     }
     @Override
