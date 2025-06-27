@@ -27,23 +27,26 @@ import pedroPathing.constants.LConstants;
 
     private Path straight1;
     private Path straight2;
-    private Path straight3;
+    private Path straight3; //scoring
     private Path straight4;
     private Path straight5;
-    private Path straight6;
+    private Path straight6; //scoring
+    private Path straight7;
+    private Path straight8;
+    private Path straight9; //score
     private Path curve1;
 
     private void buildPaths() {
-        curve1 = new Path(new BezierCurve(new Point(9,108), new Point(25, 114.6), new Point(14.7,120.4)));
+        curve1 = new Path(new BezierCurve(new Point(9,108), new Point(25, 114.6), new Point(15,126.4)));
         curve1.setLinearHeadingInterpolation(Math.toRadians(-90),Math.toRadians(-40));
 
         straight1 = new Path(new BezierCurve(new Point(14.7,120.4), new Point(13,118.5)));
         straight1.setLinearHeadingInterpolation(Math.toRadians(-40),Math.toRadians(0));
 
-        straight2 = new Path(new BezierCurve(new Point(13,118.5), new Point(24,120.5)));
+        straight2 = new Path(new BezierCurve(new Point(13,118.5), new Point(24,122.5)));
         straight2.setLinearHeadingInterpolation(Math.toRadians(0),Math.toRadians(0));
 
-        straight3 = new Path(new BezierCurve(new Point(24,120.5), new Point(16.7,122.4)));
+        straight3 = new Path(new BezierCurve(new Point(24,120.5), new Point(15,126.4)));
         straight3.setLinearHeadingInterpolation(Math.toRadians(0),Math.toRadians(-40));
 
         straight4 = new Path(new BezierCurve(new Point(16.7,122.4), new Point(13,128)));
@@ -52,33 +55,46 @@ import pedroPathing.constants.LConstants;
         straight5 = new Path(new BezierCurve(new Point(13,128), new Point(27,128)));
         straight5.setLinearHeadingInterpolation(Math.toRadians(0),Math.toRadians(0));
 
-        straight6 = new Path(new BezierCurve(new Point(27,128), new Point(14.7,124.4)));
+        straight6 = new Path(new BezierCurve(new Point(27,128), new Point(15,126.4)));
         straight6.setLinearHeadingInterpolation(Math.toRadians(0),Math.toRadians(-40));
+
+        straight7 = new Path(new BezierCurve(new Point(15,126.4), new Point(15,126.4)));
+        straight7.setLinearHeadingInterpolation(Math.toRadians(-40),Math.toRadians(-20));
+
+        straight8 = new Path(new BezierCurve(new Point(15,126.4), new Point(20,131.4)));
+        straight8.setLinearHeadingInterpolation(Math.toRadians(-20),Math.toRadians(-20));
+
+        straight8 = new Path(new BezierCurve(new Point(20,131.4), new Point(15,126.4)));
+        straight8.setLinearHeadingInterpolation(Math.toRadians(-20),Math.toRadians(-40));
     }
 
     private Command secondRoutine(){
         return new SequentialGroup(
                 master.INSTANCE.sampScore(),
                 new FollowPath(curve1),
-                new Delay(1),
+                new Delay(.5),
                 master.INSTANCE.open(),
-                new Delay(1),
+                new Delay(.5),
                 new ParallelGroup(
                         master.INSTANCE.autoPickup(),
                         master.INSTANCE.intake,
                         new FollowPath(straight1)
-                ),
+                ).endAfter(2),
                 new FollowPath(straight2),
                 master.INSTANCE.handoff(),
                 master.INSTANCE.intakeOff,
-                new Delay(1),
+                new Delay(.5),
                 master.INSTANCE.close(),
-                new Delay(1),
-                master.INSTANCE.sampScore(),
+                new Delay(.5),
+                new ParallelGroup(
+                        master.INSTANCE.sampScore(),
+                        master.INSTANCE.eject
+                ),
+                master.INSTANCE.intakeOff,
                 new FollowPath(straight3),
-                new Delay(1),
+                new Delay(.5),
                 master.INSTANCE.open(),
-                new Delay(1),
+                new Delay(.5),
                 new ParallelGroup(
                         master.INSTANCE.autoPickup(),
                         master.INSTANCE.intake,
@@ -87,14 +103,39 @@ import pedroPathing.constants.LConstants;
                 new FollowPath(straight5),
                 master.INSTANCE.handoff(),
                 master.INSTANCE.intakeOff,
-                new Delay(1),
+                new Delay(.5),
                 master.INSTANCE.close(),
-                new Delay(1),
-                master.INSTANCE.sampScore(),
+                new Delay(.5),
+                new ParallelGroup(
+                        master.INSTANCE.sampScore(),
+                        master.INSTANCE.eject
+                ),
+                master.INSTANCE.intakeOff,
                 new FollowPath(straight6),
-                new Delay(1),
+                new Delay(.5),
                 master.INSTANCE.open(),
-                new Delay(1),
+                new Delay(.5),
+                new ParallelGroup(
+                        master.INSTANCE.autoPickup(),
+                        master.INSTANCE.intake,
+                        new FollowPath(straight7)
+                ),
+                new FollowPath(straight8),
+                master.INSTANCE.handoff(),
+                master.INSTANCE.intakeOff,
+                new Delay(.5),
+                master.INSTANCE.close(),
+                new Delay(.5),
+                new ParallelGroup(
+                        master.INSTANCE.sampScore(),
+                        master.INSTANCE.eject
+                ),
+                master.INSTANCE.intakeOff,
+                master.INSTANCE.sampScore(),
+                new FollowPath(straight9),
+                new Delay(.5),
+                master.INSTANCE.open(),
+                new Delay(.5),
                 master.INSTANCE.handoff()
         );
     }

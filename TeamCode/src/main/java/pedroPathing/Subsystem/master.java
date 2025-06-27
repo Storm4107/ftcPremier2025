@@ -25,7 +25,7 @@ public class master extends Subsystem {
     public static final master INSTANCE = new master();
     private master() { }
 
-    public PIDFController controller = new PIDFController(0.04, 0.0, 0.000, new StaticFeedforward(0.0),14);
+    public PIDFController controller = new PIDFController(0.08, 0.0, 0.000, new StaticFeedforward(0.0),15);
 
 //Arm
     public Servo claw;
@@ -158,7 +158,7 @@ public class master extends Subsystem {
         ServoToPosition leftArmCommand = new ServoToPosition(leftArm,.35,this);
         ServoToPosition rightArmCommand = new ServoToPosition(rightArm,.35,this);
         ServoToPosition secondArmCommand = new ServoToPosition(secondArm,.27,this);
-        ServoToPosition secondWristCommand = new ServoToPosition(secondWrist, 0.59, this);
+        ServoToPosition secondWristCommand = new ServoToPosition(secondWrist, 0.575, this);
         ServoToPosition leftWristCommand = new ServoToPosition(leftWrist, .95, this);
         ServoToPosition rightWristCommand = new ServoToPosition(rightWrist, .95, this);
         ServoToPosition rightExtendCommand = new ServoToPosition(rightExtend,-0.225,this);
