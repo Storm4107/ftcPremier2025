@@ -67,10 +67,10 @@ public class specAuto extends PedroOpMode {
                 .setLinearHeadingInterpolation(closeHumanPose.getHeading(), wallPose.getHeading())
                 .build();
 
-        curve1 = new Path(new BezierCurve(new Point(42,72), new Point(57.15, 27.91), new Point(1.77,8.86), new Point(84.85,53.17)));
+        curve1 = new Path(new BezierCurve(new Point(42,72), new Point(-20, 10), new Point(84.85,53.17), new Point(57.15,23.16)));
         curve1.setLinearHeadingInterpolation(0.0, 0.0);
 
-        curve2 = new Path(new BezierCurve(new Point(84.85, 53.17),new Point(15.95,25.7)));
+        curve2 = new Path(new BezierCurve(new Point(57.15, 23.16),new Point(15.95,25.7)));
         curve2.setLinearHeadingInterpolation(0.0, 0.0);
 
         curve3 = new Path(new BezierCurve(new Point(15.95, 25.7), new Point(68.01,47.41), new Point(57.16,17.5)));
