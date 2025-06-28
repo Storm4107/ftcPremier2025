@@ -80,7 +80,6 @@ import pedroPathing.constants.LConstants;
                         master.INSTANCE.intake,
                         new FollowPath(straight1)
                 ).endAfter(2),
-                new Delay(1),
                 new FollowPath(straight2),
                 master.INSTANCE.handoff(),
                 master.INSTANCE.intakeOff,
